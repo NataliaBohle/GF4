@@ -115,36 +115,22 @@ with tab2:
 with tab3:
     st.markdown("#### 🛡️ Medidas de Mitigación")
     mit = df_filtrado["Medidas de Mitigación"].str.split(", ").explode()
-    df_mit = mit.value_counts()
-    fig3a = px.bar(
-        x=df_mit.index,
-        y=df_mit.values,
-        labels={"x": "Medida", "y": "Frecuencia"},
-        title="Medidas de Mitigación"
-    )
-    st.plotly_chart(fig3a, use_container_width=True)
+    df_mit = mit.value_counts().reset_index()
+    df_mit.columns = ["Medida", "Frecuencia"]
+    st.dataframe(df_mit, use_container_width=True)
 
     st.markdown("#### ♻️ Medidas de Compensación")
-    comp = df_filtrado["Medidas de Compensación"].str.split(", ").explode()
-    df_comp = comp.value_counts()
-    fig3b = px.bar(
-        x=df_comp.index,
-        y=df_comp.values,
-        labels={"x": "Medida", "y": "Frecuencia"},
-        title="Medidas de Compensación"
-    )
-    st.plotly_chart(fig3b, use_container_width=True)
+    comp = df_filtrado["Medidas de Compensacióntest"].str.split(", ").explode()
+    df_comp = comp.value_counts().reset_index()
+    df_comp.columns = ["Medida", "Frecuencia"]
+    st.dataframe(df_comp, use_container_width=True)
 
     st.markdown("#### 🧱 Medidas de Reparación")
     rep = df_filtrado["Medidas de Reparación"].str.split(", ").explode()
-    df_rep = rep.value_counts()
-    fig3c = px.bar(
-        x=df_rep.index,
-        y=df_rep.values,
-        labels={"x": "Medida", "y": "Frecuencia"},
-        title="Medidas de Reparación"
-    )
-    st.plotly_chart(fig3c, use_container_width=True)
+    df_rep = rep.value_counts().reset_index()
+    df_rep.columns = ["Medida", "Frecuencia"]
+    st.dataframe(df_rep, use_container_width=True)
+
 # TABLA DETALLE
 st.subheader("📋 Detalle de Proyectos")
 st.dataframe(df_filtrado.reset_index(drop=True), use_container_width=True)
