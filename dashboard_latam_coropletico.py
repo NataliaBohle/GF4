@@ -46,7 +46,7 @@ df_filtrado = df_filtrado[
 ]
 
 # TÍTULO Y BANDERAS
-st.title("🌎 Transición Energética Justa en REDLASEIA")
+st.title("🌎 Transición Energética Justa en América Latina y el Caribe")
 st.markdown("""
 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
   <img src="https://flagcdn.com/w40/cl.png" title="Chile" width="30">
