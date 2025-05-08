@@ -1,7 +1,5 @@
-
 import streamlit as st
 import pandas as pd
-import plotly as pl
 import plotly.express as px
 
 # Cargar datos
@@ -48,6 +46,7 @@ df_filtrado = df_filtrado[
 
 # TÍTULO PRINCIPAL
 st.title("🌎 Plataforma de datos. Grupo Focal 4. Transición Energética Justa en REDLASEIA")
+st.markdown("🇨🇱 🇵🇪 🇦🇷 🇵🇾 🇺🇾 🇧🇷 🇨🇴 🇨🇷 🇪🇨 🇲🇽")
 
 # KPIs
 st.subheader("🔢 Indicadores Principales")
@@ -85,24 +84,30 @@ with tab2:
     all_impactos = df_filtrado["Impactos Ambientales"].str.split(", ").explode()
     df_impactos = all_impactos.value_counts().reset_index()
     df_impactos.columns = ["Impacto", "Frecuencia"]
-
     fig2 = px.histogram(df_impactos,
                         x="Impacto", y="Frecuencia",
                         labels={"Impacto": "Impacto Ambiental", "Frecuencia": "Cantidad"},
                         title="Impactos Ambientales más Frecuentes")
     st.plotly_chart(fig2, use_container_width=True)
 
-
 with tab3:
-    medidas = pd.concat([
-        df_filtrado["Medidas de Mitigación"].str.split(", ").explode(),
-        df_filtrado["Medidas de Compensación"].str.split(", ").explode(),
-        df_filtrado["Medidas de Reparación"].str.split(", ").explode()
-    ])
-    fig3 = px.histogram(medidas.value_counts().reset_index(),
-                        x="index", y="count", labels={"index": "Medida", "count": "Frecuencia"},
-                        title="Medidas Ambientales aplicadas")
-    st.plotly_chart(fig3, use_container_width=True)
+    st.markdown("#### 🛡️ Medidas de Mitigación")
+    mit = df_filtrado["Medidas de Mitigación"].str.split(", ").explode()
+    fig3a = px.histogram(mit.value_counts().reset_index(),
+                         x="index", y="count", labels={"index": "Medida", "count": "Frecuencia"})
+    st.plotly_chart(fig3a, use_container_width=True)
+
+    st.markdown("#### ♻️ Medidas de Compensación")
+    comp = df_filtrado["Medidas de Compensación"].str.split(", ").explode()
+    fig3b = px.histogram(comp.value_counts().reset_index(),
+                         x="index", y="count", labels={"index": "Medida", "count": "Frecuencia"})
+    st.plotly_chart(fig3b, use_container_width=True)
+
+    st.markdown("#### 🧱 Medidas de Reparación")
+    rep = df_filtrado["Medidas de Reparación"].str.split(", ").explode()
+    fig3c = px.histogram(rep.value_counts().reset_index(),
+                         x="index", y="count", labels={"index": "Medida", "count": "Frecuencia"})
+    st.plotly_chart(fig3c, use_container_width=True)
 
 # DETALLE DE PROYECTOS
 st.subheader("📋 Detalle de Proyectos")
