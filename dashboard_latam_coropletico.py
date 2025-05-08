@@ -72,6 +72,7 @@ col3.metric("Prom. Energía por Proyecto", round(df_filtrado["Energía Generada 
 # MAPA COMPLETO LATAM
 st.subheader("🗺️ Generación Total por País (MW)")
 # Lista completa de países latinoamericanos
+# Lista completa de países latinoamericanos
 latam_paises = [
     "Argentina", "Belize", "Bolivia", "Brazil", "Chile", "Colombia", "Costa Rica",
     "Cuba", "Dominican Republic", "Ecuador", "El Salvador", "Guatemala", "Honduras",
@@ -123,6 +124,7 @@ fig_map.update_geos(
 fig_map.update_traces(marker_line_color="black", marker_line_width=0.5)
 
 st.plotly_chart(fig_map, use_container_width=True)
+
 
 
 # GRÁFICOS
