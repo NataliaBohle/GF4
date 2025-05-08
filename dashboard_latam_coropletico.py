@@ -147,8 +147,37 @@ st.subheader("📊 Análisis de Proyectos")
 tab1, tab2, tab3 = st.tabs(["Tipo de Proyecto", "Impactos Ambientales", "Medidas Aplicadas"])
 
 with tab1:
-    fig1 = px.histogram(df_filtrado, x="Tipo de Proyecto", color="Tipo de Proyecto", title="Distribución por tipo")
-    st.plotly_chart(fig1, use_container_width=True)
+    st.markdown("### Tipos de Proyecto")
+
+    # Contar tipos
+    tipo_counts = df_filtrado["Tipo de Proyecto"].value_counts().reset_index()
+    tipo_counts.columns = ["Tipo", "Cantidad"]
+
+    # Asignar emoji
+    emoji_map = {
+        "Solar": "☀️",
+        "Eólico": "🌬️",
+        "Mini Hidroeléctrica": "💧",
+        "Hidrógeno Verde": "🧪",
+        "Biomasa": "🌿"
+    }
+    tipo_counts["Emoji"] = tipo_counts["Tipo"].map(emoji_map)
+    tipo_counts["Etiqueta"] = tipo_counts["Emoji"] + " " + tipo_counts["Tipo"]
+
+    # Gráfico de burbujas
+    fig_bubble = px.scatter(tipo_counts,
+                            x="Tipo",
+                            y="Cantidad",
+                            size="Cantidad",
+                            text="Emoji",
+                            color="Tipo",
+                            title="Tipos de Proyecto (Burbujas con íconos)")
+
+    fig_bubble.update_traces(textposition='top center', marker=dict(line=dict(width=2, color='DarkSlateGrey')))
+    fig_bubble.update_layout(showlegend=False)
+
+    st.plotly_chart(fig_bubble, use_container_width=True)
+
 
 with tab2:
     all_impactos = df_filtrado["Impactos Ambientales"].str.split(", ").explode()
