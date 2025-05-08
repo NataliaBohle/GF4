@@ -149,8 +149,12 @@ with tab2:
 with tab3:
     st.markdown("#### 🛡️ Medidas de Mitigación")
     mit = df_filtrado["Medidas de Mitigación"].str.split(", ").explode()
-    fig3a = px.histogram(mit.value_counts().reset_index(),
-                         x="index", y="count", labels={"index": "Medida", "count": "Frecuencia"})
+    df_mit = mit.value_counts().reset_index()
+    df_mit.columns = ["Medidas de Mitigación", "Frecuencia"]
+    fig3a = px.histogram(df_mit,
+                     x="Medidas de Mitigación", y="Frecuencia",
+                     labels={"Medidas de Mitigación": "Medida", "Frecuencia": "Frecuencia"})
+
     st.plotly_chart(fig3a, use_container_width=True)
 
     st.markdown("#### ♻️ Medidas de Compensación")
