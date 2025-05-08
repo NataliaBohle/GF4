@@ -300,7 +300,7 @@ if seccion == "Dashboard":
     st.plotly_chart(fig_treemap, use_container_width=True)
     
     
-    st.subheader("🔥 Impactos Ambientales por Tipo de Proyecto (Heatmap)")
+    st.subheader("🎯 Impactos Ambientales por Tipo de Proyecto (Heatmap)")
     
     # Separar múltiples impactos
     df_heat = df_filtrado.copy()
