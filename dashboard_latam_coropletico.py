@@ -156,8 +156,8 @@ with tab1:
     iconos = {
         "Solar": "☀️",
         "Eólico": "🌬️",
-        "Mini Hidroeléctrica": "💧",
-        "Hidrógeno Verde": "🧪",
+        "Mini Hidro": "💧",
+        "H2V": "🧪",
         "Biomasa": "🌿"
     }
 
