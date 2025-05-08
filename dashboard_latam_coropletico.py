@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -9,7 +10,7 @@ def load_data():
 
 df = load_data()
 
-# Mapear nombres de países para el mapa
+# Agregar nombre estándar del país para mapas
 df["Nombre País"] = df["País"].map({
     "🇨🇱 Chile": "Chile",
     "🇵🇪 Perú": "Peru",
@@ -23,27 +24,28 @@ df["Nombre País"] = df["País"].map({
     "🇲🇽 México": "Mexico"
 })
 
-# Filtros
+# SIDEBAR
 st.sidebar.title("Filtros")
 paises = st.sidebar.multiselect("🌎 País", df["País"].unique())
 tipos = st.sidebar.multiselect("⚡ Tipo de Proyecto", df["Tipo de Proyecto"].unique())
 rango_ingreso = st.sidebar.slider("📅 Año de Ingreso", int(df["Año Ingreso Evaluación"].min()), int(df["Año Ingreso Evaluación"].max()), (2015, 2023))
 rango_aprobacion = st.sidebar.slider("📅 Año de Aprobación", int(df["Año Aprobación Proyecto"].min()), int(df["Año Aprobación Proyecto"].max()), (2016, 2024))
 
-# Aplicar filtros
+# Filtrado
 df_filtrado = df.copy()
 if paises:
     df_filtrado = df_filtrado[df_filtrado["País"].isin(paises)]
 if tipos:
     df_filtrado = df_filtrado[df_filtrado["Tipo de Proyecto"].isin(tipos)]
+
 df_filtrado = df_filtrado[
-    (df_filtrado["Año Ingreso Evaluación"] >= rango_ingreso[0]) &
-    (df_filtrado["Año Ingreso Evaluación"] <= rango_ingreso[1]) &
-    (df_filtrado["Año Aprobación Proyecto"] >= rango_aprobacion[0]) &
+    (df_filtrado["Año Ingreso Evaluación"] >= rango_ingreso[0]) & 
+    (df_filtrado["Año Ingreso Evaluación"] <= rango_ingreso[1]) & 
+    (df_filtrado["Año Aprobación Proyecto"] >= rango_aprobacion[0]) & 
     (df_filtrado["Año Aprobación Proyecto"] <= rango_aprobacion[1])
 ]
 
-# Título y banderas
+# TÍTULO Y BANDERAS
 st.title("🌎 Plataforma de datos. Grupo Focal 4. Transición Energética Justa en REDLASEIA")
 st.markdown("""
 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
@@ -67,69 +69,33 @@ col1.metric("Total Proyectos", len(df_filtrado))
 col2.metric("Capacidad Total (MW)", round(df_filtrado["Energía Generada (MW)"].sum(), 1))
 col3.metric("Prom. Energía por Proyecto", round(df_filtrado["Energía Generada (MW)"].mean(), 1))
 
-# Mapa coroplético LATAM
+# MAPA COMPLETO LATAM
 st.subheader("🗺️ Generación Total por País (MW)")
 latam_paises = [
     "Argentina", "Belize", "Bolivia", "Brazil", "Chile", "Colombia", "Costa Rica",
     "Cuba", "Dominican Republic", "Ecuador", "El Salvador", "Guatemala", "Honduras",
-    "Mexico", "Nicaragua", "Panama", "Paraguay", "Peru", "Uruguay", "Venezuela",
-    "Puerto Rico", "Haiti", "Jamaica", "Trinidad and Tobago", "Guyana", "Suriname",
-    "French Guiana"
+    "Mexico", "Nicaragua", "Panama", "Paraguay", "Peru", "Uruguay", "Venezuela"
 ]
-# Crear df base
-# Lista completa de países latinoamericanos
-latam_paises = [
-    "Argentina", "Belize", "Bolivia", "Brazil", "Chile", "Colombia", "Costa Rica",
-    "Cuba", "Dominican Republic", "Ecuador", "El Salvador", "Guatemala", "Honduras",
-    "Mexico", "Nicaragua", "Panama", "Paraguay", "Peru", "Uruguay", "Venezuela",
-    "Puerto Rico", "Haiti", "Jamaica", "Trinidad and Tobago", "Guyana", "Suriname",
-    "French Guiana"
-]
-
-# Preparar DataFrame de mapa
 df_base = pd.DataFrame({"Nombre País": latam_paises})
 df_map = df_base.merge(
     df_filtrado.groupby("Nombre País")["Energía Generada (MW)"].sum().reset_index(),
     on="Nombre País", how="left"
 )
-
-# Hover info
-df_map["info"] = df_map["Energía Generada (MW)"].apply(
-    lambda x: "País no participa de REDLASEIA" if pd.isna(x) else f"{x:.1f} MW"
-)
-
-# Colorear gris sin datos
-df_map["Energía Generada (MW)"] = df_map["Energía Generada (MW)"].fillna(0)
-
-# Mapa
 fig_map = px.choropleth(
     df_map,
     locations="Nombre País",
     locationmode="country names",
     color="Energía Generada (MW)",
     hover_name="Nombre País",
-    hover_data={"info": True, "Energía Generada (MW)": False, "Nombre País": False},
-    color_continuous_scale=[
-        (0.0, "#d3d3d3"),
-        (0.00001, "#440154"),
-        (0.5, "#21908C"),
-        (1.0, "#FDE725")
-    ],
-    range_color=(0.00001, df_map["Energía Generada (MW)"].max()),
+    color_continuous_scale="Viridis",
     title="Generación Total de Energía por País (MW)",
-    scope="world"
+    scope="south america"
 )
-
-fig_map.update_geos(
-    fitbounds="locations",
-    visible=False,
-    lataxis_range=[-60, 33],
-    lonaxis_range=[-120, -30]
-)
-fig_map.update_traces(marker_line_color="black", marker_line_width=0.5)
-
+fig_map.update_geos(fitbounds="locations", visible=False)
+fig_map.update_layout(margin={"r":0,"t":30,"l":0,"b":0})
 st.plotly_chart(fig_map, use_container_width=True)
-# Gráficos
+
+# GRÁFICOS
 st.subheader("📊 Análisis de Proyectos")
 tab1, tab2, tab3 = st.tabs(["Tipo de Proyecto", "Impactos Ambientales", "Medidas Aplicadas"])
 
@@ -179,9 +145,6 @@ with tab3:
         title="Medidas de Reparación"
     )
     st.plotly_chart(fig3c, use_container_width=True)
-
-
-
-# Tabla final
+# TABLA DETALLE
 st.subheader("📋 Detalle de Proyectos")
 st.dataframe(df_filtrado.reset_index(drop=True), use_container_width=True)
