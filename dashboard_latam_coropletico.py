@@ -18,7 +18,7 @@ df["Nombre País"] = df["País"].map({
     "🇺🇾 Uruguay": "Uruguay",
     "🇧🇷 Brasil": "Brazil",
     "🇨🇴 Colombia": "Colombia",
-    "🇰🇷 Costa Rica": "Costa Rica",
+    "🇨🇷 Costa Rica": "Costa Rica",
     "🇪🇨 Ecuador": "Ecuador",
     "🇲🇽 México": "Mexico"
 })
