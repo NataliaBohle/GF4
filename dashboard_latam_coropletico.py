@@ -119,7 +119,7 @@ if seccion == "Dashboard":
     
     # Hover info
     df_map["info"] = df_map["Energía Generada (MW)"].apply(
-        lambda x: "País no participa de REDLASEIA" if pd.isna(x) else f"{x:.1f} MW"
+        lambda x: "No hay datos disponibles" if pd.isna(x) else f"{x:.1f} MW"
     )
     
     # Colorear gris sin datos
