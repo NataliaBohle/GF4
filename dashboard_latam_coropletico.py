@@ -161,8 +161,8 @@ with tab3:
     df_comp = comp.value_counts().reset_index()
     df_comp.columns = ["Medida", "Frecuencia"]
     fig3b = px.histogram(df_comp,
-                         x="Medida", y="Frecuencia",
-                         labels={"Medida": "Medida", "Frecuencia": "Frecuencia"})
+                     x="Medida", y="Frecuencia",
+                     labels={"Medida": "Medida", "Frecuencia": "Frecuencia"})
     st.plotly_chart(fig3b, use_container_width=True)
 
     st.markdown("#### 🧱 Medidas de Reparación")
