@@ -193,7 +193,35 @@ with tab3:
     )
     st.plotly_chart(fig3c, use_container_width=True)
 
-    
+# GRÁFICO DE LÍNEAS POR AÑO
+st.subheader("📈 Evolución Anual de Energía Generada por Proyectos")
+
+df_linea = df_filtrado.copy()
+
+# Agrupar energía por año de ingreso y aprobación
+energia_ingreso = df_linea.groupby("Año Ingreso Evaluación")["Energía Generada (MW)"].sum().reset_index()
+energia_aprobacion = df_linea.groupby("Año Aprobación Proyecto")["Energía Generada (MW)"].sum().reset_index()
+
+energia_ingreso["Tipo"] = "Ingreso"
+energia_aprobacion["Tipo"] = "Aprobación"
+energia_ingreso = energia_ingreso.rename(columns={"Año Ingreso Evaluación": "Año"})
+energia_aprobacion = energia_aprobacion.rename(columns={"Año Aprobación Proyecto": "Año"})
+
+# Combinar ambos
+df_tendencia = pd.concat([energia_ingreso, energia_aprobacion])
+
+fig_linea = px.line(
+    df_tendencia,
+    x="Año",
+    y="Energía Generada (MW)",
+    color="Tipo",
+    markers=True,
+    labels={"Energía Generada (MW)": "MW generados"},
+    title="Energía generada por año de ingreso y aprobación"
+)
+
+st.plotly_chart(fig_linea, use_container_width=True)
+
 # TABLA DETALLE
 st.subheader("📋 Detalle de Proyectos")
 st.dataframe(df_filtrado.reset_index(drop=True), use_container_width=True)
