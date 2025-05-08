@@ -47,7 +47,7 @@ df_filtrado = df_filtrado[
 ]
 
 # TÍTULO PRINCIPAL
-st.title("🌎 Dashboard de Proyectos de Transición Energética en LATAM")
+st.title("🌎 Plataforma de datos. Grupo Focal 4. Transición Energética Justa en REDLASEIA")
 
 # KPIs
 st.subheader("🔢 Indicadores Principales")
