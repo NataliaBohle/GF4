@@ -87,9 +87,14 @@ fig_map = px.choropleth(
     hover_name="Nombre País",
     color_continuous_scale="Viridis",
     title="Generación Total de Energía por País (MW)",
-    scope="south america"
+    scope="world"  # mostrar todo el mundo
 )
-fig_map.update_geos(fitbounds="locations", visible=False)
+fig_map.update_geos(
+    fitbounds="locations",
+    visible=False,
+    lataxis_range=[-60, 33],  # restringe a LATAM
+    lonaxis_range=[-120, -30]
+)
 fig_map.update_layout(margin={"r": 0, "t": 30, "l": 0, "b": 0})
 st.plotly_chart(fig_map, use_container_width=True)
 
