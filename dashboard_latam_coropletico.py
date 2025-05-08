@@ -47,7 +47,14 @@ df_filtrado = df_filtrado[
 
 # TÍTULO Y BANDERAS
 st.title("🌎 Plataforma de datos. Grupo Focal 4. Transición Energética Justa en REDLASEIA")
-st.markdown(" ")
+st.markdown(" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sodales mi non enim facilisis, 
+vitae lacinia lorem euismod. In volutpat porta sapien, condimentum consectetur ante varius in. Cras ac nulla 
+sed nibh sodales pharetra. Quisque ultrices porttitor ex et lacinia. Nulla tempus metus sed bibendum tincidunt. 
+Aliquam lacinia scelerisque facilisis. Vivamus vulputate molestie velit, nec blandit est vehicula a. Ut bibendum 
+augue ut dui sollicitudin, tristique luctus ipsum mollis. Vivamus nec tellus nisi. Quisque sed rutrum quam. 
+Proin sit amet tristique lacus. Mauris aliquet molestie velit id egestas. Donec sed lectus eget mauris varius 
+sodales. Cras dui lacus, pulvinar id.")
+st.markdown("")
 st.markdown("""
 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
   <img src="https://flagcdn.com/w40/cl.png" title="Chile" width="30">
