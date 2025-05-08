@@ -249,6 +249,52 @@ fig_linea = px.line(
 
 st.plotly_chart(fig_linea, use_container_width=True)
 
+st.subheader("📊 Tiempo entre ingreso y aprobación")
+
+df_scatter = df_filtrado.copy()
+df_scatter["Años entre ingreso y aprobación"] = df_scatter["Año Aprobación Proyecto"] - df_scatter["Año Ingreso Evaluación"]
+
+fig_scatter = px.scatter(
+    df_scatter,
+    x="Año Ingreso Evaluación",
+    y="Años entre ingreso y aprobación",
+    color="Tipo de Proyecto",
+    size="Energía Generada (MW)",
+    hover_name="Proyecto",
+    title="Retraso en aprobación por año de ingreso"
+)
+st.plotly_chart(fig_scatter, use_container_width=True)
+
+#tipo/pais
+st.subheader("🌞 Distribución de Tipos de Proyecto por País (Sunburst)")
+
+fig_sunburst = px.sunburst(
+    df_filtrado,
+    path=["País", "Tipo de Proyecto"],
+    values="Energía Generada (MW)",
+    color="Tipo de Proyecto",
+    title="Participación de tipos de proyecto por país",
+)
+
+st.plotly_chart(fig_sunburst, use_container_width=True)
+
+st.subheader("🔥 Impactos Ambientales por Tipo de Proyecto (Heatmap)")
+
+df_heat = df_filtrado.copy()
+df_heat = df_heat.explode("Impactos Ambientales")
+df_heat["Impactos Ambientales"] = df_heat["Impactos Ambientales"].str.strip()
+tabla_heat = df_heat.groupby(["Tipo de Proyecto", "Impactos Ambientales"]).size().reset_index(name="Frecuencia")
+
+fig_heat = px.density_heatmap(
+    tabla_heat,
+    x="Impactos Ambientales",
+    y="Tipo de Proyecto",
+    z="Frecuencia",
+    color_continuous_scale="Viridis",
+    title="Frecuencia de impactos ambientales por tipo de proyecto"
+)
+st.plotly_chart(fig_heat, use_container_width=True)
+
 # TABLA DETALLE
 st.subheader("📋 Detalle de Proyectos")
 st.dataframe(df_filtrado.reset_index(drop=True), use_container_width=True)
