@@ -83,10 +83,15 @@ with tab1:
 
 with tab2:
     all_impactos = df_filtrado["Impactos Ambientales"].str.split(", ").explode()
-    fig2 = px.histogram(all_impactos.value_counts().reset_index(),
-                        x="index", y="count", labels={"index": "Impacto", "count": "Frecuencia"},
+    df_impactos = all_impactos.value_counts().reset_index()
+    df_impactos.columns = ["Impacto", "Frecuencia"]
+
+    fig2 = px.histogram(df_impactos,
+                        x="Impacto", y="Frecuencia",
+                        labels={"Impacto": "Impacto Ambiental", "Frecuencia": "Cantidad"},
                         title="Impactos Ambientales más Frecuentes")
     st.plotly_chart(fig2, use_container_width=True)
+
 
 with tab3:
     medidas = pd.concat([
