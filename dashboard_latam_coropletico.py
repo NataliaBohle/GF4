@@ -161,7 +161,7 @@ with tab1:
         "Biomasa": "Biomasa🌿"
     }
 
-    tipo_counts["Ícono"] = tipo_counts["Tipo"].map(lambda x: f"{iconos.get(x, '')} {x}")
+    tipo_counts["Ícono"] = tipo_counts["Tipo"].map(iconos)
 
     # Gráfico de barras horizontales
     fig_barh = px.bar(
