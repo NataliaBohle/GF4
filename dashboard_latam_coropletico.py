@@ -72,7 +72,9 @@ st.subheader("🗺️ Generación Total por País (MW)")
 latam_paises = [
     "Argentina", "Belize", "Bolivia", "Brazil", "Chile", "Colombia", "Costa Rica",
     "Cuba", "Dominican Republic", "Ecuador", "El Salvador", "Guatemala", "Honduras",
-    "Mexico", "Nicaragua", "Panama", "Paraguay", "Peru", "Uruguay", "Venezuela"
+    "Mexico", "Nicaragua", "Panama", "Paraguay", "Peru", "Uruguay", "Venezuela",
+    "Puerto Rico", "Haiti", "Jamaica", "Trinidad and Tobago", "Guyana", "Suriname",
+    "French Guiana"
 ]
 df_base = pd.DataFrame({"Nombre País": latam_paises})
 df_map = df_base.merge(
