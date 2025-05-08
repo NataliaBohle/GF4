@@ -288,20 +288,31 @@ st.plotly_chart(fig_treemap, use_container_width=True)
 
 st.subheader("🔥 Impactos Ambientales por Tipo de Proyecto (Heatmap)")
 
+# Separar múltiples impactos
 df_heat = df_filtrado.copy()
-df_heat = df_heat.explode("Impactos Ambientales")
-df_heat["Impactos Ambientales"] = df_heat["Impactos Ambientales"].str.strip()
-tabla_heat = df_heat.groupby(["Tipo de Proyecto", "Impactos Ambientales"]).size().reset_index(name="Frecuencia")
+df_heat = df_heat.assign(Impactos=df_heat["Impactos Ambientales"].str.split(", "))
+df_heat = df_heat.explode("Impactos")
+df_heat["Impactos"] = df_heat["Impactos"].str.strip()
 
+# Agrupar
+tabla_heat = df_heat.groupby(["Tipo de Proyecto", "Impactos"]).size().reset_index(name="Frecuencia")
+
+# Solo mostrar los 10 impactos más comunes para claridad
+top_impactos = tabla_heat.groupby("Impactos")["Frecuencia"].sum().nlargest(10).index
+tabla_heat = tabla_heat[tabla_heat["Impactos"].isin(top_impactos)]
+
+# Gráfico
 fig_heat = px.density_heatmap(
     tabla_heat,
-    x="Impactos Ambientales",
+    x="Impactos",
     y="Tipo de Proyecto",
     z="Frecuencia",
-    color_continuous_scale="Viridis",
-    title="Frecuencia de impactos ambientales por tipo de proyecto"
+    color_continuous_scale="YlOrBr",
+    title="Top 10 Impactos Ambientales por Tipo de Proyecto"
 )
+fig_heat.update_layout(xaxis_tickangle=45)
 st.plotly_chart(fig_heat, use_container_width=True)
+
 
 # TABLA DETALLE
 st.subheader("📋 Detalle de Proyectos")
