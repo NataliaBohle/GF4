@@ -47,6 +47,7 @@ df_filtrado = df_filtrado[
 
 # TÍTULO Y BANDERAS
 st.title("🌎 Plataforma de datos. Grupo Focal 4. Transición Energética Justa en REDLASEIA")
+st.markdown(" ")
 st.markdown("""
 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
   <img src="https://flagcdn.com/w40/cl.png" title="Chile" width="30">
@@ -61,7 +62,7 @@ st.markdown("""
   <img src="https://flagcdn.com/w40/mx.png" title="México" width="30">
 </div>
 """, unsafe_allow_html=True)
-
+st.markdown(" ")  # o st.text(" ")
 # KPIs
 st.subheader("🔢 Indicadores Principales")
 col1, col2, col3 = st.columns(3)
