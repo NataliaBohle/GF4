@@ -266,17 +266,17 @@ fig_scatter = px.scatter(
 st.plotly_chart(fig_scatter, use_container_width=True)
 
 #tipo/pais
-st.subheader("🌞 Distribución de Tipos de Proyecto por País (Sunburst)")
+st.subheader("🌳 Distribución de Tipos de Proyecto por País (Treemap)")
 
-fig_sunburst = px.sunburst(
+fig_treemap = px.treemap(
     df_filtrado,
     path=["País", "Tipo de Proyecto"],
     values="Energía Generada (MW)",
     color="Tipo de Proyecto",
-    title="Participación de tipos de proyecto por país",
+    title="Participación de tipos de proyecto por país (en MW)"
 )
 
-st.plotly_chart(fig_sunburst, use_container_width=True)
+st.plotly_chart(fig_treemap, use_container_width=True)
 
 st.subheader("🔥 Impactos Ambientales por Tipo de Proyecto (Heatmap)")
 
