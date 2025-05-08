@@ -266,17 +266,25 @@ fig_scatter = px.scatter(
 st.plotly_chart(fig_scatter, use_container_width=True)
 
 #tipo/pais
-st.subheader("🌳 Distribución de Tipos de Proyecto por País (Treemap)")
+# Paleta más armónica por tipo
+color_map = {
+    "Solar": "#F4D06F",        # amarillo suave
+    "Eólico": "#90BEDE",       # celeste claro
+    "Mini Hidroeléctrica": "#B5EAD7",  # verde agua
+    "Hidrógeno Verde": "#FFDAC1",      # salmón suave
+    "Biomasa": "#C7CEEA"       # lavanda claro
+}
 
 fig_treemap = px.treemap(
     df_filtrado,
     path=["País", "Tipo de Proyecto"],
     values="Energía Generada (MW)",
     color="Tipo de Proyecto",
+    color_discrete_map=color_map,
     title="Participación de tipos de proyecto por país (en MW)"
 )
-
 st.plotly_chart(fig_treemap, use_container_width=True)
+
 
 st.subheader("🔥 Impactos Ambientales por Tipo de Proyecto (Heatmap)")
 
