@@ -145,14 +145,14 @@ with tab2:
     st.plotly_chart(fig2, use_container_width=True)
 
 with tab3:
-    st.markdown("#### 🛡️ Medidas de Mitigación")
+    st.markdown("#### 🛡️ Medidas de Mitigación. PRUEBAA")
     mit = df_filtrado["Medidas de Mitigación"].str.split(", ").explode()
     df_mit = mit.value_counts().reset_index()
     df_mit.columns = ["Medida", "Frecuencia"]
     st.dataframe(df_mit, use_container_width=True)
 
     st.markdown("#### ♻️ Medidas de Compensación")
-    comp = df_filtrado["Medidas de Compensacióntest"].str.split(", ").explode()
+    comp = df_filtrado["Medidas de Compensación"].str.split(", ").explode()
     df_comp = comp.value_counts().reset_index()
     df_comp.columns = ["Medida", "Frecuencia"]
     st.dataframe(df_comp, use_container_width=True)
@@ -162,7 +162,7 @@ with tab3:
     df_rep = rep.value_counts().reset_index()
     df_rep.columns = ["Medida", "Frecuencia"]
     st.dataframe(df_rep, use_container_width=True)
-
+    
 # TABLA DETALLE
 st.subheader("📋 Detalle de Proyectos")
 st.dataframe(df_filtrado.reset_index(drop=True), use_container_width=True)
