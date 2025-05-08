@@ -47,7 +47,7 @@ df_filtrado = df_filtrado[
 
 # TÍTULO Y BANDERAS
 st.title("🌎 Transición Energética Justa en REDLASEIA")
-st.subtitle("🌎 Grupo Focal 4. REDALSEIA 2025")
+st.subheader("🌎 Grupo Focal 4. REDALSEIA 2025")
 
 st.markdown("""
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sodales mi non enim facilisis, 
