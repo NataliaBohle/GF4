@@ -76,31 +76,45 @@ latam_paises = [
     "Puerto Rico", "Haiti", "Jamaica", "Trinidad and Tobago", "Guyana", "Suriname",
     "French Guiana"
 ]
+# Crear df base
 df_base = pd.DataFrame({"Nombre País": latam_paises})
+
+# Merge con datos reales
 df_map = df_base.merge(
     df_filtrado.groupby("Nombre País")["Energía Generada (MW)"].sum().reset_index(),
     on="Nombre País", how="left"
 )
+
+# Reemplazar NaN con 0 (para colorear en gris)
+df_map["Energía Generada (MW)"] = df_map["Energía Generada (MW)"].fillna(0)
+
+# Crear mapa con color personalizado
 fig_map = px.choropleth(
     df_map,
     locations="Nombre País",
     locationmode="country names",
     color="Energía Generada (MW)",
     hover_name="Nombre País",
-    color_continuous_scale="Viridis",
+    color_continuous_scale=[
+        (0.0, "#d3d3d3"),  # gris para "sin dato"
+        (0.00001, "#440154"),  # comienza la escala real
+        (0.5, "#21908C"),
+        (1.0, "#FDE725")
+    ],
+    range_color=(0.00001, df_map["Energía Generada (MW)"].max()),  # excluye el gris de la escala activa
     title="Generación Total de Energía por País (MW)",
     scope="world"
 )
+
 fig_map.update_geos(
     fitbounds="locations",
     visible=False,
     lataxis_range=[-60, 33],
     lonaxis_range=[-120, -30]
 )
-fig_map.update_traces(marker_line_color="black", marker_line_width=0.5)
+
 fig_map.update_layout(margin={"r": 0, "t": 30, "l": 0, "b": 0})
 st.plotly_chart(fig_map, use_container_width=True)
-
 # Gráficos
 st.subheader("📊 Análisis de Proyectos")
 tab1, tab2, tab3 = st.tabs(["Tipo de Proyecto", "Impactos Ambientales", "Medidas Aplicadas"])
