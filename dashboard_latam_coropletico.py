@@ -78,11 +78,15 @@ st.markdown("<div style='margin-top:30px;'></div>", unsafe_allow_html=True)
 
 st.markdown(" ")  # o st.text(" ")
 # KPIs
-st.subheader("🔢 Indicadores Principales")
+st.subheader("🔢 Indicadores Principales*")
 col1, col2, col3 = st.columns(3)
 col1.metric("Total Proyectos", len(df_filtrado))
 col2.metric("Capacidad Total (MW)", round(df_filtrado["Energía Generada (MW)"].sum(), 1))
 col3.metric("Prom. Energía por Proyecto", round(df_filtrado["Energía Generada (MW)"].mean(), 1))
+st.markdown("""
+* Estos indicadores no son representativos de la totalidad de proyectos de cada país. Corresponden a los
+proyectos enviados por cada país para realizar el panel de datos y el análisis objetivo del grupo focal.
+""")
 
 # MAPA COMPLETO LATAM
 st.subheader("🗺️ Generación Total por País (MW)")
