@@ -147,36 +147,34 @@ st.subheader("📊 Análisis de Proyectos")
 tab1, tab2, tab3 = st.tabs(["Tipo de Proyecto", "Impactos Ambientales", "Medidas Aplicadas"])
 
 with tab1:
-    st.markdown("### Tipos de Proyecto")
+    st.markdown("### Tipos de Proyecto (con íconos)")
 
-    # Contar tipos
+    # Contar y mapear íconos
     tipo_counts = df_filtrado["Tipo de Proyecto"].value_counts().reset_index()
     tipo_counts.columns = ["Tipo", "Cantidad"]
 
-    # Asignar emoji
-    emoji_map = {
+    iconos = {
         "Solar": "☀️",
         "Eólico": "🌬️",
         "Mini Hidroeléctrica": "💧",
         "Hidrógeno Verde": "🧪",
         "Biomasa": "🌿"
     }
-    tipo_counts["Emoji"] = tipo_counts["Tipo"].map(emoji_map)
-    tipo_counts["Etiqueta"] = tipo_counts["Emoji"] + " " + tipo_counts["Tipo"]
 
-    # Gráfico de burbujas
-    fig_bubble = px.scatter(tipo_counts,
-                            x="Tipo",
-                            y="Cantidad",
-                            size="Cantidad",
-                            text="Emoji",
-                            color="Tipo",
-                            title="Tipos de Proyecto (Burbujas con íconos)")
+    tipo_counts["Tipo + Ícono"] = tipo_counts["Tipo"].map(lambda x: f"{iconos.get(x, '')} {x}")
 
-    fig_bubble.update_traces(textposition='top center', marker=dict(line=dict(width=2, color='DarkSlateGrey')))
-    fig_bubble.update_layout(showlegend=False)
+    # Gráfico de barras horizontales
+    fig_barh = px.bar(
+        tipo_counts.sort_values("Cantidad"),
+        x="Cantidad",
+        y="Tipo + Ícono",
+        orientation="h",
+        labels={"Cantidad": "Cantidad de proyectos", "Tipo + Ícono": "Tipo"},
+        title="Cantidad de proyectos por tipo"
+    )
 
-    st.plotly_chart(fig_bubble, use_container_width=True)
+    st.plotly_chart(fig_barh, use_container_width=True)
+
 
 
 with tab2:
