@@ -154,22 +154,22 @@ with tab1:
     tipo_counts.columns = ["Tipo", "Cantidad"]
 
     iconos = {
-        "Solar": "☀️",
-        "Eólico": "🌬️",
-        "Mini Hidro": "💧",
-        "H2V": "🧪",
-        "Biomasa": "🌿"
+        "Solar": "Solar ☀️",
+        "Eólico": "Eólica 🌀",
+        "Mini Hidroeléctrica": "Mini Hidro💧",
+        "Hidrógeno verde": "H2V🧪",
+        "Biomasa": "Biomasa🌿"
     }
 
-    tipo_counts["Tipo + Ícono"] = tipo_counts["Tipo"].map(lambda x: f"{iconos.get(x, '')} {x}")
+    tipo_counts["Ícono"] = tipo_counts["Tipo"].map(lambda x: f"{iconos.get(x, '')} {x}")
 
     # Gráfico de barras horizontales
     fig_barh = px.bar(
         tipo_counts.sort_values("Cantidad"),
         x="Cantidad",
-        y="Tipo + Ícono",
+        y="Ícono",
         orientation="h",
-        labels={"Cantidad": "Cantidad de proyectos", "Tipo + Ícono": "Tipo"},
+        labels={"Cantidad": "Cantidad de proyectos", "Ícono": "Tipo"},
         title="Cantidad de proyectos por tipo"
     )
 
